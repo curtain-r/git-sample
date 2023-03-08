@@ -1,5 +1,5 @@
 import { normalizePath } from './normalizePath'
 
-export function join(...parts: string[]) {
+export const join = (...parts: string[]) => {
   return normalizePath(parts.map(normalizePath).join('/'))
 }

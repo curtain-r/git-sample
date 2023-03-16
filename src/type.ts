@@ -73,20 +73,42 @@ export type GitHttpResponse = {
      */
     statusMessage: string;
 };
+export type FileMode = '040000' | '100644' | '100755' | '120000' | '160000';
+export type Entry = {
+    mode: string; 
+    path: string; 
+    oid: string; 
+    type: 'blob' | 'tree' | 'commit';
+}
+export type Author = { 
+    name: string;
+    email: string;
+    timestamp: number;
+    timezoneOffset: string;
+}
+
+
+
+
+
+
+
 
 // command
-type CommonCommandOption = {
+type CommonFunctionOption = {
     fs: Fs,
-    dir: string;
     gitdir?: string;
+    cache?: object;
 }
-export type CommandOption<T> = T & CommonCommandOption;
+export type CommandOption<T> = T & CommonFunctionOption;
 
 export type InitOption = CommandOption<{
     bare?: boolean;
     defaultBranch?: string;
+    dir: string;
 }>
 export type CloneOption = CommandOption<{
+    dir: string;
     http: HttpClient;
     onProgress?: ProgressCallback;
     onMessage?: MessageCallback;
@@ -109,3 +131,28 @@ export type CloneOption = CommandOption<{
     };
     cache?: any;
 }>
+export type ReadBlobOption = CommandOption<{
+    oid: string;
+    filepath?: string;
+}>
+export type ReadTreeOption = ReadBlobOption;
+
+export type ReadObjectOption = CommandOption<{
+    oid: string;
+    format?: 'content' | 'wrapped' | 'deflated' | 'content';
+}>
+export type ReadObjectLooseOption = CommandOption<{
+    oid: string;
+}>;
+
+export type DataCommandProperty = {
+    oid: string;
+    type: string; 
+    size: string; 
+    object: Buffer;
+}
+export type UnwrapData =  { 
+    type: string; 
+    size: string; 
+    object: Buffer;
+}
